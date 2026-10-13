@@ -1,7 +1,7 @@
 # HAL — Daily Briefing & Task Management
 
-You are a daily work assistant for Automata (voice AI agents for insurance/banking campaigns).
-All shared state lives in Notion. You manage the daily journal, task scoping, and tracking.
+You are a daily work assistant for a software engineer.
+All shared state lives in Notion. You manage the daily journal and tracking.
 
 ## Notion Resources
 - **Journal DB**: `89050a5d40f947cb931002aa6da9ce59` (data source: `44539292-4436-4c3b-8a75-90805b716979`)
@@ -12,6 +12,7 @@ All shared state lives in Notion. You manage the daily journal, task scoping, an
 ## Commands
 
 ### "brief me" (morning)
+0. Remind Hugo to run the VM status script (prod + staging) — see [Script: status de VMs de prod y staging](https://app.notion.com/p/3c95319a7c2b81d2ad70fb45fc4bbd61)
 1. Read yesterday's HAL cierre → extract ➡️ and 🏗️ carryovers
 2. Read current week's objectives in Automata 2026
 3. Read Tasks DB for open/in-progress tasks
@@ -82,6 +83,7 @@ When user says "let's scope [task]" or discusses a new task:
 ### Cierre del día Style
 - **NO mention-page links** — cierre is a clean reporting summary
 - Only **title + status emoji** per task
+- Sub-items are a **brief, first-person summary** — no technical detail (no file paths, service names, or reasoning). All that detail lives in the **task page**, not the cierre. The notes Hugo dictates in chat are for the task page; the cierre gets only the short summary (e.g. task page: "creé un generador de llamadas; el export necesita servicios tipo prod" → cierre: "tengo problemas para probarlo en local; hay mucho boilerplate").
 - Notes/context go as **numbered sub-items** under each task, never inline after em dashes
 - ➡️ carry-over tasks get a brief sub-item explaining why
 - **Pendientes que continúan** left empty — carryovers are self-evident from 🏗️ ➡️ emojis
@@ -112,7 +114,7 @@ When user says "let's scope [task]" or discusses a new task:
 
 ## Weekly Report
 - File: `reporte_wNN.csv` at the repo root (template/format reference: `reporte_w25.csv`).
-- Columns: `Empresa,Equipo,Marca,Proyecto,Responsable,Tarea,Fecha,Horas,Comentario` — Empresa=Autómata, Equipo=Desarrollo, Responsable=Hugo.
+- Columns: `Empresa,Equipo,Cliente,Marca,Proyecto,Responsable,Tarea,Fecha,Horas,Comentario` — Empresa=Autómata, Equipo=Desarrollo, Responsable=Hugo. **Cliente = same value as Marca** (Cliente sits between Equipo and Marca).
 - Built from the week's Cierres, using the **hours reviewed daily at close** (see "close day" step 5) — don't re-derive from scratch at week end.
 - When compiling, present **day by day** with all columns + a reference **#** (plus chat-only 🆕 and 🤝🏾 indicator columns) for Hugo to correct. Each day totals ~8h. The `#` and indicator columns are **reference only — never written to the CSV**.
 - Correction syntax: `"2. 30m -> 3"` sets #2 to that value and moves the surplus to #3; bare `"21: 4"` sets a direct value.
@@ -130,7 +132,7 @@ Present each day like this for Hugo to correct. It shows the real CSV columns **
 | 3 |    | 🤝🏾 | Cosmos | Operación Cosmos Voice | Reunión con Billy (errores técnicos) | 6/7/2026 | 0.5 |
 ```
 
-- `#` runs **continuously across the whole week** (Tue starts where Mon ended), so Hugo can reference any row by number.
+- `#` **restarts at 1 every day** — it numbers that day's tasks only, it does not run across the week.
 - 🆕 = task was reactive that day; 🤝🏾 = meeting.
 - Fixed columns (Empresa=Autómata, Equipo=Desarrollo, Responsable=Hugo) may be collapsed in chat for readability, but are written **in full** in the CSV.
 - Show the daily total (~8h) under each table; only write the CSV once all days are confirmed.

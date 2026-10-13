@@ -1,0 +1,6 @@
+Empresa,Equipo,Cliente,Marca,Proyecto,Responsable,Tarea,Fecha,Horas,Comentario
+Autómata,Desarrollo,Cosmos,Cosmos,Operación Cosmos Voice,Hugo,Lanzar campañas (Kapital),12/10/2026,1,
+Autómata,Desarrollo,Across,Across,Mantenimiento,Hugo,Across: Revisar flujo de reporte de alertas,12/10/2026,0.25,
+Autómata,Desarrollo,Cosmos,Cosmos,Operación Cosmos Voice,Hugo,Automata: Campaña de prospección,12/10/2026,2.5,
+Autómata,Desarrollo,Kapital,Cosmos,Operación Cosmos Voice,Hugo,Kapital: Revisar ticket de errores en el prompt,12/10/2026,0.5,
+Autómata,Desarrollo,BAZ,Cosmos,Operación Cosmos Voice,Hugo,BAZ: Cambios en prompt por llamadas con flag,12/10/2026,3.75,
