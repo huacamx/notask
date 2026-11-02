@@ -141,12 +141,13 @@ Present each day like this for Hugo to correct. It shows the real CSV columns **
 - P0 (daily ops): Lanzar campañas — always first, operational, not in weekly objectives
 - P1+: Derived from weekly objectives in Automata 2026
 
-## Notion Markdown Quick Ref
-- Toggle heading: `## Title {toggle="true"}` with indented children
-- Mention date: `<mention-date start="YYYY-MM-DD"/>`
-- Mention page: `<mention-page url="{{URL}}"/>`
-- Empty block: `<empty-block/>`
-- ⚠️ `create-pages` drops the top-level `▶️ Plan del día` toggle heading — after creating a HAL entry, verify and fix with `replace_content`.
+## Notion Markdown Quick Ref (Markdown vNext, since 2026-10-20)
+- Toggle heading: `<toggle heading="h1">` / title on first line / blank line / body / `</toggle>`
+- Nested lists use **spaces** (2 under `- `, 3 under `1. `), not tabs
+- Mention page: `<mention url="{{URL}}" />`
+- Mention date: `<date start="YYYY-MM-DD" />`
+- ⚠️ Tab-indented `# Title {toggle="true"}` gets flattened into one paragraph — don't use it.
+- ⚠️ `create-pages` content is unreliable: create with `<empty-block/>`, then `replace_content`, then fetch to verify the `<toggle>` wrapper.
 
 ## Context
 - Campaigns: Mawdy (MAPFRE), Global Assurance, BAZ, Kapital
