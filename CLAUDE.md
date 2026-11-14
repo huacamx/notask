@@ -25,7 +25,7 @@ All shared state lives in Notion. You manage the daily journal and tracking.
 2. Update HAL cierre with status emojis (✅ 🏗️ ➡️ 🚫 🐞 🆕 ⚠️)
 3. Update Tasks DB statuses (and save each day's Progress note in the task pages)
 4. Leave "Pendientes que continúan" empty — carryovers are self-evident from emojis
-5. **Suggest estimated hours per task** so hours are reviewed daily (target ~8h/day). You estimate, Hugo corrects — e.g. `"2. 30m -> 3"` = set #2 to 30m and move the surplus to #3; bare `"21: 4"` = direct value. Save internally for the weekly report — **never show hours in the HAL cierre** (see Weekly Report). Skipped tasks = 0h / no entry.
+5. **Suggest estimated hours per task** so hours are reviewed daily (target ~8h/day). You estimate, Hugo corrects — e.g. `"2. 30m -> 3"` = set #2 to 30m and move the surplus to #3; bare `"21: 4"` = direct value. The table **always includes a Status column** (✅ Done / 🏗️ WIP / ➡️ Carry over / ⏸️ Paused / 🚫 Missed) and lists **every task of the day, including 0h ones**, so Hugo can correct status too (e.g. `"2: done"`, `"4: missed"`) and tasks don't pile up across weeks. Save internally for the weekly report — **never show hours in the HAL cierre** (see Weekly Report). Skipped tasks = 0h / no CSV row.
 
 ### Task scoping (anytime)
 When user says "let's scope [task]" or discusses a new task:
@@ -119,21 +119,22 @@ When user says "let's scope [task]" or discusses a new task:
 - When compiling, present **day by day** with all columns + a reference **#** (plus chat-only 🆕 and 🤝🏾 indicator columns) for Hugo to correct. Each day totals ~8h. The `#` and indicator columns are **reference only — never written to the CSV**.
 - Correction syntax: `"2. 30m -> 3"` sets #2 to that value and moves the surplus to #3; bare `"21: 4"` sets a direct value.
 - **Skipped tasks get no row.** Task names stay clean and consistent across days; Comentario left empty (w25 style).
-- Marca/Proyecto mapping: Cosmos → `Operación Cosmos Voice`; KOL-AI work → `KOL-AI`; Across → `Marca=Across, Proyecto=Mantenimiento`.
+- Marca/Proyecto mapping: Cosmos → `Operación Cosmos Voice`; KOL-AI work → `KOL-AI`; Across → `Marca=Across, Proyecto=Mantenimiento`; Keryx (new project Autómata supports, since 2026-11-12) → `Cliente=BNN, Marca=BNN, Proyecto=Keryx`.
 
 ### Day-by-day review table (chat only)
-Present each day like this for Hugo to correct. It shows the real CSV columns **plus** three display-only columns — `#`, 🆕, 🤝🏾 — that are **never written to the CSV**:
+Present each day like this for Hugo to correct. It shows the real CSV columns **plus** four display-only columns — `#`, 🆕, 🤝🏾, Status — that are **never written to the CSV**:
 
 ```
-| # | 🆕 | 🤝🏾 | Marca | Proyecto | Tarea | Fecha | Horas |
-|---|----|----|-------|----------|-------|-------|-------|
-| 1 |    |    | Cosmos | Operación Cosmos Voice | Lanzar campañas (Kapital + DARHE) | 6/7/2026 | 1 |
-| 2 | 🆕 |    | Cosmos | KOL-AI | KOL-AI: Fix bug de transcripciones no visibles | 6/7/2026 | 3 |
-| 3 |    | 🤝🏾 | Cosmos | Operación Cosmos Voice | Reunión con Billy (errores técnicos) | 6/7/2026 | 0.5 |
+| # | 🆕 | 🤝🏾 | Status | Marca | Proyecto | Tarea | Fecha | Horas |
+|---|----|----|--------|-------|----------|-------|-------|-------|
+| 1 |    |    | ✅ Done | Cosmos | Operación Cosmos Voice | Lanzar campañas (Kapital + DARHE) | 6/7/2026 | 1 |
+| 2 | 🆕 |    | 🏗️ WIP | Cosmos | KOL-AI | KOL-AI: Fix bug de transcripciones no visibles | 6/7/2026 | 3 |
+| 3 |    | 🤝🏾 | ✅ Done | Cosmos | Operación Cosmos Voice | Reunión con Billy (errores técnicos) | 6/7/2026 | 0.5 |
+| 4 |    |    | ➡️ Carry over | Cosmos | Operación Cosmos Voice | Cosmos: Fix del reporte de agentes | 6/7/2026 | 0 |
 ```
 
 - `#` **restarts at 1 every day** — it numbers that day's tasks only, it does not run across the week.
-- 🆕 = task was reactive that day; 🤝🏾 = meeting.
+- 🆕 = task was reactive that day; 🤝🏾 = meeting; Status = the task's state at close (0h rows stay visible in chat but are never written to the CSV).
 - Fixed columns (Empresa=Autómata, Equipo=Desarrollo, Responsable=Hugo) may be collapsed in chat for readability, but are written **in full** in the CSV.
 - Show the daily total (~8h) under each table; only write the CSV once all days are confirmed.
 
