@@ -13,6 +13,7 @@ All shared state lives in Notion. You manage the daily journal and tracking.
 
 ### "brief me" (morning)
 0. Remind Hugo to run the VM status script (prod + staging) — see [Script: status de VMs de prod y staging](https://app.notion.com/p/3c95319a7c2b81d2ad70fb45fc4bbd61)
+0.5. Run the `email-triage` skill (`.claude/skills/email-triage/SKILL.md`), then show `📧 Sugeridas del correo` (new `📧 inbox` tasks, name + link) and ask which ones Hugo takes. Taken → Tareas principales after carryovers, due today. Not taken → clear due date, keep `Not done` + tag.
 1. Read yesterday's HAL cierre → extract ➡️ and 🏗️ carryovers
 2. Read current week's objectives in Automata 2026
 3. Read Tasks DB for open/in-progress tasks
@@ -26,6 +27,9 @@ All shared state lives in Notion. You manage the daily journal and tracking.
 3. Update Tasks DB statuses (and save each day's Progress note in the task pages)
 4. Leave "Pendientes que continúan" empty — carryovers are self-evident from emojis
 5. **Suggest estimated hours per task** so hours are reviewed daily (target ~8h/day). You estimate, Hugo corrects — e.g. `"2. 30m -> 3"` = set #2 to 30m and move the surplus to #3; bare `"21: 4"` = direct value. The table **always includes a Status column** (✅ Done / 🏗️ WIP / ➡️ Carry over / ⏸️ Paused / 🚫 Missed) and lists **every task of the day, including 0h ones**, so Hugo can correct status too (e.g. `"2: done"`, `"4: missed"`) and tasks don't pile up across weeks. Save internally for the weekly report — **never show hours in the HAL cierre** (see Weekly Report). Skipped tasks = 0h / no CSV row.
+
+### "/email-triage" (anytime)
+Runs the `email-triage` skill on demand (Gmail via the claude.ai Gmail connector, connected with `/mcp`). Also runs headless from the user crontab at 07:00 and 14:00 on weekdays via `scripts/email-triage.sh` (plan: `docs/email-triage-plan.md`, rules: `docs/email-triage-rubric.md`). Email tasks carry tag `📧 inbox`; a midday run adds a `- 📧 Correo (sugeridas):` bullet to today's Plan del día, right before Bloqueos / dudas.
 
 ### Task scoping (anytime)
 When user says "let's scope [task]" or discusses a new task:
@@ -62,7 +66,7 @@ When user says "let's scope [task]" or discusses a new task:
    - Leverage tools can later be formalized as objectives when ready to deliver to others.
 
 ## HAL Entry Format
-- Name: `HAL 2026 {MM}Mes {DD}` (e.g., `HAL 2026 02Febrero 20`)
+- Name: `HAL 2026 {MM}Mes {DD}` (e.g., `HAL 2026 02Febrero 20`). Only the **first workday of the week** (Monday, or Tuesday after a holiday) gets a trailing ` 💻` in the title (e.g., `HAL 2026 11Noviembre 23 💻`); all other days have no icon.
 - Properties: Name, Date, Project=`🤖 Automata`, Tags=`Work`
 
 ### Plan del día Style
@@ -77,8 +81,11 @@ When user says "let's scope [task]" or discusses a new task:
     2. Mawdy: Cambios en prompt <mention-page url="{{...}}"/>
       1. Validación de teléfono
       2. Objecionario nuevo
+  - 📧 Correo (sugeridas):
+    1. Kapital: Revisar error del reporte <mention-page url="{{...}}"/>
   - Bloqueos / dudas:
 ```
+- `📧 Correo (sugeridas)` is written only by the `email-triage` skill (midday run) and removed once Hugo decides at the next brief.
 
 ### Cierre del día Style
 - **NO mention-page links** — cierre is a clean reporting summary
@@ -140,6 +147,7 @@ Present each day like this for Hugo to correct. It shows the real CSV columns **
 
 ## Priority Framework
 - P0 (daily ops): Lanzar campañas — always first, operational, not in weekly objectives
+- P0 recurring (Mondays, or the first workday of the week): `Across: Revisión del reporte` — add it to the plan every week without being asked; create its task page, ~15m, Marca=Across / Proyecto=Mantenimiento
 - P1+: Derived from weekly objectives in Automata 2026
 
 ## Notion Markdown Quick Ref (Markdown vNext, since 2026-10-20)
